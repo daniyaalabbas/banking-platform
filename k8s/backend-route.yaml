@@ -4,13 +4,14 @@ metadata:
   name: banking-backend
   labels:
     app: banking-backend
-    app.kubernetes.io/name: banking-backend
-    app.kubernetes.io/component: backend
 spec:
+  host: banking-backend-daniyaalabbas-dev.apps.rm1.0a51.p1.openshiftapps.com
   to:
     kind: Service
     name: banking-backend
     weight: 100
   port:
     targetPort: 8080-tcp
-  wildcardPolicy: None
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

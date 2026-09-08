@@ -22,6 +22,9 @@ spec:
         - name: banking-backend
           image: daniyaalabbas/banking-backend:latest
           imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: banking-db-credentials
           ports:
             - containerPort: 8080
               name: http
