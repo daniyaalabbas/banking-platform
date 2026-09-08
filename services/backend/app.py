@@ -24,6 +24,15 @@ def account():
         "currency": "INR"
     })
 
+@app.route("/api/balance")
+def balance():
+    return jsonify({
+        "account": "ACC-1001",
+        "available_balance": 50000,
+        "ledger_balance": 52000,
+        "currency": "INR"
+    })
+
 @app.route("/api/payment", methods=["POST"])
 def payment():
     return jsonify({
