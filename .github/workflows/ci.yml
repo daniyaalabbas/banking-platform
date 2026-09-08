@@ -1,5 +1,4 @@
 
-
 name: Banking Backend CI/CD
 
 on:
@@ -72,4 +71,3 @@ jobs:
           tags: |
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
             ${{ env.IMAGE_NAME }}:latest
-EOF
