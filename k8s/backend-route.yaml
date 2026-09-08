@@ -1,0 +1,16 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: banking-backend
+  labels:
+    app: banking-backend
+    app.kubernetes.io/name: banking-backend
+    app.kubernetes.io/component: backend
+spec:
+  to:
+    kind: Service
+    name: banking-backend
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  wildcardPolicy: None

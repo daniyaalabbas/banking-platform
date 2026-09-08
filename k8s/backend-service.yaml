@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: banking-backend
+  labels:
+    app: banking-backend
+    app.kubernetes.io/name: banking-backend
+    app.kubernetes.io/component: backend
+spec:
+  type: ClusterIP
+  ports:
+    - name: 8080-tcp
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: banking-backend
