@@ -9,6 +9,13 @@ def health():
         "service": "banking-backend"
     })
 
+@app.route("/api/version")
+def version():
+    return jsonify({
+        "version": "v2.0.0",
+        "status": "production-ready"
+    })
+
 @app.route("/api/account")
 def account():
     return jsonify({
