@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: banking-app-config
+  labels:
+    app: banking-backend
+data:
+  APP_ENV: "production"
+  LOG_LEVEL: "INFO"
+  DEFAULT_CURRENCY: "INR"
+  MAX_DAILY_TRANSFER_LIMIT: "500000"

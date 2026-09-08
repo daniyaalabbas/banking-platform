@@ -25,6 +25,8 @@ spec:
           envFrom:
             - secretRef:
                 name: banking-db-credentials
+            - configMapRef:
+                name: banking-app-config
           ports:
             - containerPort: 8080
               name: http
