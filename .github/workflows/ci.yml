@@ -1,11 +1,10 @@
-
 name: Banking Backend CI/CD
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
+  push:
     branches:
       - main
 
@@ -13,18 +12,13 @@ env:
   IMAGE_NAME: daniyaalabbas/banking-backend
 
 jobs:
-
-  # -------------------------
-  # 1. TEST
-  # -------------------------
+  # 1. RUNS ON BOTH: Pull Requests AND Merges to Main
   test:
-    name: Test Backend
+    name: Run Unit & Health Tests
     runs-on: ubuntu-latest
-
     defaults:
       run:
         working-directory: services/backend
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -37,22 +31,33 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Test application
+      - name: Test application health endpoint
         run: |
-          python3 -c "from app import app; client=app.test_client(); response=client.get('/health'); assert response.status_code == 200; print(response.json)"
+          python3 -c "from app import app; client=app.test_client(); response=client.get('/health'); assert response.status_code == 200; print('Health check passed:', response.json)"
 
-  # -------------------------
-  # 2. BUILD & PUSH DOCKER
-  # -------------------------
-  docker:
-    name: Build and Push Docker Image
+  # 2. RUNS ONLY ON PR: Validates the Docker container builds without pushing
+  test-build:
+    name: Test Docker Build (PR Dry-Run)
     needs: test
-
-    # Only push images when code is merged/pushed to main
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      - name: Build Docker image (No Push)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./services/backend
+          push: false
+          tags: ${{ env.IMAGE_NAME }}:test
+
+  # 3. RUNS ONLY AFTER MERGE TO MAIN: Builds, pushes image, and triggers rollout
+  deploy:
+    name: Build, Push & Deploy to OpenShift
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
