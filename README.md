@@ -107,8 +107,11 @@ banking-platform/
 │   ├── banking-pvc.yaml           # AWS gp3 PersistentVolumeClaims
 │   ├── db-networkpolicy.yaml      # Zero-trust firewall rules
 │   └── db-secret.yaml             # Database credentials template
+├── frontend/                     # Web portal / UI assets
 ├── services/
-│   └── backend/
+│   ├── auth/                     # Authentication & token service
+│   ├── backend/                  # Core banking engine (Flask)
+│   └── payment/                  # Payment gateway microservice
 │       ├── app.py                # Flask microservice & UI portal
 │       ├── Dockerfile            # Container build specification
 │       └── requirements.txt      # Python dependencies
