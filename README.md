@@ -112,5 +112,3 @@ banking-platform/
 │       └── requirements.txt      # Python dependencies
 └── README.md
 
-
-exit 
