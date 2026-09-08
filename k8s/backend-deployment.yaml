@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: banking-backend
-          image: daniyaalabbas/banking-backend:latest
+          image: daniyaalabbas/banking-backend:be141b95cd0126404165ede7e6c75b45188131ff
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
