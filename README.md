@@ -2,41 +2,42 @@
 
 A production-grade, highly available, resilient Core Banking Microservice architecture deployed on **Red Hat OpenShift (Enterprise Kubernetes on AWS)** with automated GitOps CI/CD delivery.
 
----
-
 ## 🏛️ Architecture Overview
 
 The platform decouples compute, state, network security, and configuration into isolated layers:
-[ Public Internet / Clients ]
-│
-▼ HTTPS (TCP 443)
-[ OpenShift Ingress Router (HAProxy) ]
-├── Edge TLS Termination (Let's Encrypt Wildcard SSL)
-└── Auto HTTP -> HTTPS 302 Insecure Redirect
-│
-▼ Internal HTTP (TCP 8080)
-[ ClusterIP Service: banking-backend:8080 ]
-│
-▼ Round-Robin Load Balancing
-[ Stateless Application Tier: 3x Pod Replicas ]
-├── Framework: Python Flask (REST API & Banking Portal UI)
-├── Scaling: Horizontal Pod Autoscaler (HPA: min 2, max 5, target 70% CPU)
-├── Reliability: Readiness (/health) and Liveness probes
-├── Resource Management: Requests (50m CPU, 64Mi RAM) / Limits (250m CPU, 256Mi RAM)
-├── Observability: Native Prometheus exposition endpoint (/metrics)
-├── Config Injection: ConfigMap (banking-app-config)
-└── Secret Decoupling: Kubernetes Secret (banking-db-credentials)
-│
-▼ TCP 5432 (Restricted by Zero-Trust NetworkPolicy)
-[ Headless Service: banking-db (CoreDNS Discovery) ]
-│
-▼ Stable Network Ordinals (0, 1)
-[ Stateful Data Tier: 2x Database Nodes (StatefulSet) ]
-├── banking-db-0 ──► PVC ──► AWS EBS gp3 Volume (1Gi)
-└── banking-db-1 ──► PVC ──► AWS EBS gp3 Volume (1Gi
----
 
-## 🚀 How We Built It (Step-by-Step Evolution)
+```text
+[ Public Internet / Clients ]
+              │
+              ▼ HTTPS (TCP 443)
+[ OpenShift Ingress Router (HAProxy) ]
+   ├── Edge TLS Termination (Let's Encrypt Wildcard SSL)
+   └── Auto HTTP -> HTTPS 302 Insecure Redirect
+              │
+              ▼ Internal HTTP (TCP 8080)
+[ ClusterIP Service: banking-backend:8080 ]
+              │
+              ▼ Round-Robin Load Balancing
+[ Stateless Application Tier: 3x Pod Replicas ]
+   ├── Framework: Python Flask (REST API & Banking Portal UI)
+   ├── Scaling: Horizontal Pod Autoscaler (HPA: min 2, max 5, target 70% CPU)
+   ├── Reliability: Readiness (/health) and Liveness probes
+   ├── Resource Management: Requests (50m CPU, 64Mi RAM) / Limits (250m CPU, 256Mi RAM)
+   ├── Observability: Native Prometheus exposition endpoint (/metrics)
+   ├── Config Injection: ConfigMap (banking-app-config)
+   └── Secret Decoupling: Kubernetes Secret (banking-db-credentials)
+              │
+              ▼ TCP 5432 (Restricted by Zero-Trust NetworkPolicy)
+[ Headless Service: banking-db (CoreDNS Discovery) ]
+              │
+              ▼ Stable Network Ordinals (0, 1)
+[ Stateful Data Tier: 2x Database Nodes (StatefulSet) ]
+   ├── banking-db-0 ──► PVC ──► AWS EBS gp3 Volume (1Gi)
+   └── banking-db-1 ──► PVC ──► AWS EBS gp3 Volume (1Gi)
+```
+
+
+## 🚀 How I Built it
 
 ### 1. Application Containerization
 * Developed the core banking API and banking dashboard web interface in Python.
@@ -91,7 +92,8 @@ The platform decouples compute, state, network security, and configuration into 
 
 ---
 
-
+### 📁 Repository Structure
+```
 banking-platform/
 ├── .github/workflows/
 │   └── deploy.yaml               # GitHub Actions CI/CD pipeline
@@ -111,4 +113,10 @@ banking-platform/
 │       ├── Dockerfile            # Container build specification
 │       └── requirements.txt      # Python dependencies
 └── README.md
+```
+
+<img width="1903" height="947" alt="image" src="https://github.com/user-attachments/assets/b539749f-422e-4c3d-b35c-459711f54741" />
+
+
+
 
