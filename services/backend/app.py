@@ -56,7 +56,7 @@ HTML_TEMPLATE = """
 <body>
   <div class="dashboard">
     <div class="header">
-      <div class="logo">⚡ SecureCore Bank</div>
+      <div class="logo">⚡ SecureCore Bank V1</div>
       <div class="badge">● Live Production TLS</div>
     </div>
     <div class="content">
