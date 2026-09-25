@@ -71,7 +71,7 @@ The platform decouples compute, state, network security, and configuration into 
 
 ---
 
-## 🛠️ Engineering Hurdles & How We Solved Them
+## 🛠️ Engineering Hurdles & How I Solved Them
 
 | Issue / Failure | Root Cause | Engineering Resolution |
 | :--- | :--- | :--- |
